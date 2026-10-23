@@ -53,6 +53,7 @@ jobs:
       - uses: Swatinem/rust-cache@v2
         with:
           workspaces: src-tauri
+          cache-on-failure: true
       - run: npm ci
       - run: npm run build:frontend
       - name: Resolve Rust dependencies
@@ -68,12 +69,32 @@ jobs:
         run: |
           New-Item -ItemType Directory -Path dist/release -Force | Out-Null
           Copy-Item 'src-tauri/target/x86_64-pc-windows-msvc/release/magic-conch-widget.exe' 'dist/release/Magic-Conch-0.2.0-Windows.exe'
+      - name: Ensure WebView2 runtime
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: |
+          $runtimeKeys = @('HKLM:\SOFTWARE\WOW6432Node\Microsoft\EdgeUpdate\Clients\{F3017226-FE2A-4295-8BDF-00C3A9A7E4C5}', 'HKCU:\Software\Microsoft\EdgeUpdate\Clients\{F3017226-FE2A-4295-8BDF-00C3A9A7E4C5}')
+          $installed = $runtimeKeys | Where-Object { (Get-ItemProperty -LiteralPath $_ -Name pv -ErrorAction SilentlyContinue).pv }
+          if (-not $installed) {
+            $installer = Join-Path $env:RUNNER_TEMP 'WebView2Setup.exe'
+            Invoke-WebRequest 'https://go.microsoft.com/fwlink/p/?LinkId=2124703' -OutFile $installer
+            $process = Start-Process -FilePath $installer -ArgumentList '/silent', '/install' -Wait -WindowStyle Hidden -PassThru
+            if ($process.ExitCode -ne 0) { throw "WebView2 install failed: $($process.ExitCode)" }
+          }
+          npm run tauri -- info
       - name: Check Windows app
         if: runner.os == 'Windows'
         run: npm run test:native
         env:
           CONCH_EXECUTABLE: dist/release/Magic-Conch-0.2.0-Windows.exe
+      - name: Check macOS app
+        if: runner.os == 'macOS'
+        run: |
+          codesign --verify --deep --strict 'src-tauri/target/universal-apple-darwin/release/bundle/macos/Magic Conch.app'
+          lipo -archs 'src-tauri/target/universal-apple-darwin/release/bundle/macos/Magic Conch.app/Contents/MacOS/magic-conch-widget'
+          node test/widget.macos.cjs
       - uses: actions/upload-artifact@v4
+        if: always()
         with:
           name: ${{ matrix.platform }}
           if-no-files-found: error

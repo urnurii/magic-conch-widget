@@ -15,16 +15,20 @@ const { exerciseWidget } = require('./widget.browser.cjs');
   async function launch() {
     const server = createServer(); await new Promise(resolve => server.listen(0, '127.0.0.1', resolve));
     const port = server.address().port; await new Promise(resolve => server.close(resolve));
-    child = spawn(executable, [], { cwd: root, windowsHide: true, stdio: 'ignore', env: { ...process.env,
+    let diagnostics = '';
+    child = spawn(executable, [], { cwd: root, windowsHide: true, stdio: ['ignore', 'pipe', 'pipe'], env: { ...process.env,
       CONCH_TEST_DATA: data, WEBVIEW2_USER_DATA_FOLDER: path.join(data, `webview-${++launches}`),
       WEBVIEW2_ADDITIONAL_BROWSER_ARGUMENTS: `--remote-debugging-port=${port}` } });
+    child.stdout.on('data', bytes => { diagnostics = (diagnostics + bytes).slice(-3000); });
+    child.stderr.on('data', bytes => { diagnostics = (diagnostics + bytes).slice(-3000); });
+    child.on('error', error => { diagnostics += error.message; });
     let connected = false;
     for (let attempt = 0; attempt < 150; attempt++) {
       if (child.exitCode !== null) throw Error(`Native app exited early: ${child.exitCode}`);
       try { const response = await fetch(`http://127.0.0.1:${port}/json/version`); if (response.ok) { connected = true; break; } } catch {}
       await delay(200);
     }
-    if (!connected) throw Error('WebView2 debugging endpoint did not become ready');
+    if (!connected) throw Error('WebView2 debugging endpoint did not become ready. ' + diagnostics);
     browser = await chromium.connectOverCDP(`http://127.0.0.1:${port}`);
     const context = browser.contexts()[0];
     const page = context.pages()[0] || await context.waitForEvent('page');

@@ -60,8 +60,30 @@ fn close_window(window: WebviewWindow) -> Result<(), String> { window.close().ma
 #[tauri::command]
 fn drag_window(window: WebviewWindow) -> Result<(), String> { window.start_dragging().map_err(|e| e.to_string()) }
 #[tauri::command]
-fn show_widget(window: WebviewWindow) -> Result<(), String> {
-    window.show().map_err(|e| e.to_string())
+fn show_widget(window: WebviewWindow, app: tauri::AppHandle) -> Result<(), String> {
+    window.show().map_err(|e| e.to_string())?;
+    // The opt-in probe checks startup on macOS, where WKWebView has no WebDriver.
+    if std::env::var("CONCH_STARTUP_PROBE").as_deref() == Ok("1") {
+        let clips: Vec<_> = (1..=12).map(|index| {
+            let file = format!("assets/audio/answer-{index:02}.mp3");
+            let asset = app.asset_resolver().get(file.clone());
+            let bytes = asset.as_ref().map(|asset| asset.bytes.len()).unwrap_or(0);
+            let mime = asset.as_ref().map(|asset| asset.mime_type.clone()).unwrap_or_default();
+            serde_json::json!({ "file": file, "bytes": bytes, "mime": mime })
+        }).collect();
+        let size = window.inner_size().map_err(|e| e.to_string())?;
+        let scale = window.scale_factor().map_err(|e| e.to_string())?;
+        let decorated = window.is_decorated().map_err(|e| e.to_string())?;
+        let ok = !decorated && clips.iter().all(|clip| clip["bytes"].as_u64().unwrap_or(0) > 1000 && clip["mime"].as_str().unwrap_or("").starts_with("audio/"));
+        let report = serde_json::json!({ "ok": ok, "os": std::env::consts::OS, "arch": std::env::consts::ARCH,
+            "width": f64::from(size.width) / scale, "height": f64::from(size.height) / scale, "decorated": decorated, "clips": clips });
+        let settings = app.state::<Settings>();
+        let folder = settings.file.parent().ok_or("Missing settings folder")?;
+        fs::create_dir_all(folder).map_err(|e| e.to_string())?;
+        fs::write(folder.join("startup-smoke.json"), serde_json::to_vec_pretty(&report).map_err(|e| e.to_string())?).map_err(|e| e.to_string())?;
+        app.exit(if ok { 0 } else { 1 });
+    }
+    Ok(())
 }
 fn restore_position(window: &WebviewWindow, preferences: &Preferences) -> tauri::Result<()> {
     let size = window.outer_size()?;
