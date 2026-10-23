@@ -13,6 +13,10 @@
 Удаление доступно через «Установленные приложения» Windows.
 Установщик не подписан цифровой подписью; Windows может показать предупреждение о неизвестном издателе.
 
+[Скачать установщик 0.1.1](https://github.com/urnurii/magic-conch-widget/releases/download/v0.1.1/Magic-Conch-0.1.1-Setup.exe)
+· [Скачать portable-версию](https://github.com/urnurii/magic-conch-widget/releases/download/v0.1.1/Magic-Conch-0.1.1-portable.exe)
+· [Все релизы](https://github.com/urnurii/magic-conch-widget/releases)
+
 Готовая версия: `dist/Magic-Conch-0.1.1-portable.exe`. Просто открой её двойным щелчком.
 Установка, права администратора и Node.js для готовой версии не нужны.
 Первый запуск может занять несколько секунд: portable-версия распаковывает Electron.
@@ -86,7 +90,15 @@ Remove-Item Env:CONCH_PACKAGED_EXECUTABLE
 
 ## Репозиторий
 
-Локальный Git-репозиторий, основная ветка `main`. Зависимости и готовые сборки исключены из Git.
-Для повторяемой установки включён `package-lock.json`. Публикация на GitHub пока не настроена.
+Открытый репозиторий: [urnurii/magic-conch-widget](https://github.com/urnurii/magic-conch-widget), основная ветка `main`.
+Зависимости и готовые сборки исключены из Git; установщики публикуются в Releases.
+Для повторяемой установки включён `package-lock.json`.
+
+```powershell
+git clone https://github.com/urnurii/magic-conch-widget.git
+cd magic-conch-widget
+npm ci
+npm start
+```
 
 Материалы мультфильма не распространяются под лицензией исходного кода; см. `SOURCES.md`.
