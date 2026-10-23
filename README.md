@@ -48,6 +48,15 @@ npm run build
 Тесты проверяют набор ответов, отсутствие повторов, настоящее прозрачное окно и PNG,
 нажатие, порог тяги и её отмену, клавиатуру, закрепление и сохранение настроек.
 Для UI-тестов используется Electron через Playwright; браузер отдельно устанавливать не нужно.
+Проверить уже упакованное приложение можно так:
+
+```powershell
+$env:CONCH_PACKAGED_EXECUTABLE = (Resolve-Path 'dist/win-unpacked/Magic Conch.exe').Path
+node test/widget.smoke.cjs
+Remove-Item Env:CONCH_PACKAGED_EXECUTABLE
+```
+
+23 октября 2026 года проверки исходного и упакованного приложения успешно прошли на Windows x64.
 
 ## Устройство проекта
 

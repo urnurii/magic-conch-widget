@@ -12,7 +12,10 @@ const { answers } = require('../src/answers.js');
   delete env.ELECTRON_RUN_AS_NODE;
   let application;
   const launch = async () => {
-    application = await electron.launch({ args: [root], env });
+    const packaged = process.env.CONCH_PACKAGED_EXECUTABLE;
+    application = await electron.launch({
+      ...(packaged ? { executablePath: packaged } : {}), args: packaged ? [] : [root], env
+    });
     const page = await application.firstWindow();
     await page.waitForFunction(() => window.conch && document.getElementById('shell'));
     await application.evaluate(({ BrowserWindow }) => BrowserWindow.getAllWindows()[0].showInactive());
