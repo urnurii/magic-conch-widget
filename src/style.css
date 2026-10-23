@@ -1,0 +1,44 @@
+:root { color-scheme: dark; font-family: 'Segoe UI', sans-serif; color: #f6efff; }
+* { box-sizing: border-box; }
+html, body { margin: 0; width: 390px; height: 490px; overflow: hidden; background: transparent; user-select: none; }
+button { font: inherit; color: inherit; cursor: pointer; -webkit-app-region: no-drag; }
+button:focus-visible { outline: 2px solid #e6e8a0; outline-offset: 4px; }
+.widget { position: relative; width: 390px; height: 490px; padding-top: 12px; }
+.nameplate { display: flex; justify-content: center; align-items: center; gap: 11px; font-size: 10px; font-weight: 650; letter-spacing: 2.1px; color: #f4edff; text-shadow: 0 1px 6px #1d1233, 0 0 3px #1d1233; -webkit-app-region: drag; }
+.star { color: #dfdb9a; font-size: 13px; }
+.bubble { position: absolute; z-index: 3; top: 43px; left: 34px; width: 322px; min-height: 90px; padding: 17px 18px 18px; border: 1px solid #d5c4f139; border-radius: 22px; background: #211b32f5; box-shadow: 0 8px 23px #100a242e, inset 0 1px #ffffff0d; text-align: center; display: flex; flex-direction: column; justify-content: center; gap: 6px; }
+.bubble::after { content: ''; position: absolute; width: 14px; height: 14px; bottom: -8px; left: 85px; background: #211b32; transform: rotate(45deg); border-right: 1px solid #d5c4f139; border-bottom: 1px solid #d5c4f139; }
+.eyebrow { color: #b5a5ce; font-size: 9px; letter-spacing: 2px; font-weight: 600; }
+#answer { font-size: 20px; font-weight: 600; line-height: 1.23; }
+.bubble.reveal { animation: reveal .35s ease-out; }
+.stage { position: absolute; top: 105px; left: 0; width: 390px; height: 330px; }
+.shell { position: absolute; left: 42px; top: 40px; width: 280px; height: 306px; background: none; padding: 0; border: 0; transform-origin: 55% 60%; filter: drop-shadow(0 12px 9px #130c294f); }
+.shell img { width: 280px; height: 306px; object-fit: contain; pointer-events: none; clip-path: polygon(0 0, 76% 0, 76% 27%, 72% 28%, 72% 37%, 81% 37%, 100% 100%, 0 100%); }
+.shell:hover { filter: drop-shadow(0 0 14px #c2a6e266) drop-shadow(0 12px 9px #130c294f); }
+.widget.thinking .shell { animation: thinking .16s ease-in-out infinite alternate; }
+.cord { position: absolute; inset: 0; width: 390px; height: 330px; pointer-events: none; overflow: visible; }
+.cord path { fill: none; stroke-linecap: round; }
+#cord-outline { stroke: #515341; stroke-width: 7px; }
+#cord-core { stroke: #e8ecc0; stroke-width: 4px; }
+.ring { position: absolute; left: 270px; top: 34px; width: 48px; height: 56px; border: 0; background: transparent; padding: 0; touch-action: none; cursor: grab; filter: drop-shadow(0 3px 2px #160e2933); z-index: 4; }
+.ring span { position: absolute; width: 44px; height: 48px; left: 2px; top: 0; border: 7px solid #e8ecc0; border-radius: 50%; box-shadow: 0 0 0 1.5px #545643, inset 0 0 0 1.5px #545643; }
+.ring span::after { content: ''; position: absolute; width: 14px; height: 8px; background: #e8ecc0; border: 1.5px solid #545643; border-radius: 2px; top: 38px; left: 8px; }
+.ring:active { cursor: grabbing; }
+.ring:hover span { background: #e8ecc015; box-shadow: 0 0 0 1.5px #545643, inset 0 0 0 1.5px #545643, 0 0 18px #f0f5b355; }
+.pull-hint { position: absolute; left: 317px; top: 43px; font-size: 10px; color: #eeeacb; text-shadow: 0 1px 4px #161024, 0 0 3px #161024; pointer-events: none; }
+.spark { position: absolute; color: #ddd5ac; text-shadow: 0 0 8px #c5aed3; pointer-events: none; }
+.spark-one { left: 62px; top: 80px; font-size: 20px; }
+.spark-two { right: 34px; top: 203px; font-size: 26px; }
+.spark-three { left: 88px; top: 250px; font-size: 30px; }
+.hint { position: absolute; top: 429px; margin: 0; width: 100%; font-size: 11px; text-align: center; color: #eee9f4; text-shadow: 0 1px 4px #130c24, 0 0 3px #130c24; }
+.toolbar { position: absolute; left: 88px; bottom: 6px; height: 33px; display: flex; align-items: center; padding: 0 5px; border-radius: 12px; border: 1px solid #d5c4f12a; background: #211b32ed; box-shadow: 0 4px 10px #100a2426; }
+.toolbar button { width: 34px; height: 27px; border: 0; border-radius: 7px; background: transparent; font-size: 20px; color: #b2a6c9; line-height: 1; }
+.toolbar button:hover { background: #b4a0d127; color: #fff; }
+.toolbar button[aria-pressed=true] { color: #e7e8b3; }
+.toolbar #close:hover { color: #ffc4ce; background: #ac415d32; }
+.divider { height: 13px; width: 1px; margin: 0 4px; background: #ad9fb72f; }
+.grip { width: 34px; text-align: center; color: #a090ba; cursor: move; -webkit-app-region: drag; }
+.grip span { font-size: 22px; }
+@keyframes thinking { from { transform: rotate(-2deg); } to { transform: rotate(2deg) translateY(-2px); } }
+@keyframes reveal { from { transform: translateY(5px) scale(.97); opacity: .6; } to { transform: none; opacity: 1; } }
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } }

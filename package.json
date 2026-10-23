@@ -1,0 +1,27 @@
+{
+  "name": "magic-conch-widget",
+  "version": "0.1.0",
+  "description": "Волшебная ракушка — прозрачный виджет для Windows",
+  "main": "src/main.cjs",
+  "author": "Magic Conch Widget contributors",
+  "private": true,
+  "scripts": {
+    "start": "electron .",
+    "test": "node --test test/answers.test.cjs && node test/widget.smoke.cjs",
+    "build": "electron-builder --win portable --x64"
+  },
+  "devDependencies": {
+    "electron": "45.0.0",
+    "electron-builder": "26.15.3",
+    "playwright": "1.64.1"
+  },
+  "build": {
+    "appId": "local.magicconch.widget",
+    "productName": "Magic Conch",
+    "artifactName": "Magic-Conch-${version}-portable.${ext}",
+    "directories": { "output": "dist" },
+    "files": ["src/**/*", "assets/**/*", "package.json"],
+    "win": { "target": "portable", "signAndEditExecutable": false },
+    "portable": { "requestExecutionLevel": "user" }
+  }
+}
