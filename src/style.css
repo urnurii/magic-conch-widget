@@ -13,7 +13,9 @@ button:focus-visible { outline: 2px solid #e6e8a0; outline-offset: 4px; }
 .bubble.reveal { animation: reveal .35s ease-out; }
 .stage { position: absolute; top: 105px; left: 0; width: 390px; height: 330px; }
 .shell { position: absolute; left: 42px; top: 40px; width: 280px; height: 306px; background: none; padding: 0; border: 0; transform-origin: 55% 60%; filter: drop-shadow(0 12px 9px #130c294f); }
-.shell img { width: 280px; height: 306px; object-fit: contain; pointer-events: none; clip-path: polygon(0 0, 76% 0, 76% 27%, 72% 28%, 72% 37%, 81% 37%, 100% 100%, 0 100%); }
+/* Keep the complete shell and socket (up to x=340 in the 424px source).
+   Only the original ring and the free cord are outside this mask. */
+.shell img { width: 280px; height: 306px; object-fit: contain; pointer-events: none; clip-path: polygon(0 0, 80.2% 0, 80.2% 43.2%, 100% 100%, 0 100%); }
 .shell:hover { filter: drop-shadow(0 0 14px #c2a6e266) drop-shadow(0 12px 9px #130c294f); }
 .widget.thinking .shell { animation: thinking .16s ease-in-out infinite alternate; }
 .cord { position: absolute; inset: 0; width: 390px; height: 330px; pointer-events: none; overflow: visible; }

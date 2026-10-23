@@ -58,7 +58,7 @@ function ask() {
 function drawPull(distance) {
   ring.style.transform = `translateY(${-distance}px)`;
   const end = 82 - distance;
-  const curve = `M 255 147 Q 279 ${135 - distance * .35} 294 ${end}`;
+  const curve = `M 266 125 Q 284 ${112 - distance * .35} 294 ${end}`;
   $('cord-outline').setAttribute('d', curve); $('cord-core').setAttribute('d', curve);
   $('pull-hint').textContent = distance >= 42 ? 'отпусти ✦' : '↑ потяни';
 }

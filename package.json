@@ -1,6 +1,6 @@
 {
   "name": "magic-conch-widget",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Волшебная ракушка — прозрачный виджет для Windows",
   "main": "src/main.cjs",
   "author": "Magic Conch Widget contributors",
@@ -20,10 +20,23 @@
     "appId": "local.magicconch.widget",
     "productName": "Magic Conch",
     "artifactName": "Magic-Conch-${version}-portable.${ext}",
-    "directories": { "output": "dist" },
-    "files": ["src/**/*", "assets/**/*", "package.json", "README.md", "SOURCES.md"],
-    "win": { "target": "portable", "signAndEditExecutable": false },
-    "portable": { "requestExecutionLevel": "user" },
+    "directories": {
+      "output": "dist"
+    },
+    "files": [
+      "src/**/*",
+      "assets/**/*",
+      "package.json",
+      "README.md",
+      "SOURCES.md"
+    ],
+    "win": {
+      "target": "portable",
+      "signAndEditExecutable": false
+    },
+    "portable": {
+      "requestExecutionLevel": "user"
+    },
     "nsis": {
       "artifactName": "Magic-Conch-${version}-Setup.${ext}",
       "oneClick": false,
@@ -34,7 +47,10 @@
       "createStartMenuShortcut": true,
       "shortcutName": "Волшебная ракушка",
       "uninstallDisplayName": "Magic Conch — Волшебная ракушка",
-      "installerLanguages": ["ru_RU", "en_US"],
+      "installerLanguages": [
+        "ru_RU",
+        "en_US"
+      ],
       "language": "1049",
       "runAfterFinish": true,
       "deleteAppDataOnUninstall": false
