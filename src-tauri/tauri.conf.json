@@ -1,0 +1,36 @@
+{
+  "$schema": "https://schema.tauri.app/config/2",
+  "productName": "Magic Conch",
+  "version": "0.2.0",
+  "identifier": "local.magicconch.widget",
+  "build": {
+    "beforeDevCommand": "npm run dev",
+    "beforeBuildCommand": "npm run build:frontend",
+    "devUrl": "http://127.0.0.1:1420",
+    "frontendDist": "../dist/frontend"
+  },
+  "app": {
+    "withGlobalTauri": true,
+    "windows": [{
+      "label": "main", "title": "Волшебная ракушка", "width": 390, "height": 490,
+      "resizable": false, "maximizable": false, "fullscreen": false,
+      "decorations": false, "transparent": true, "shadow": false,
+      "visible": false, "backgroundColor": "#00000000"
+    }],
+    "security": {
+      "csp": "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self'; media-src 'self'; connect-src ipc: http://ipc.localhost; object-src 'none'; base-uri 'none'"
+    }
+  },
+  "bundle": {
+    "active": true,
+    "targets": "all",
+    "icon": ["icons/icon.png", "icons/icon.ico", "icons/icon.icns"],
+    "shortDescription": "Волшебная ракушка с ответами на русском",
+    "category": "Entertainment",
+    "windows": {
+      "webviewInstallMode": { "type": "downloadBootstrapper", "silent": true },
+      "nsis": { "installMode": "currentUser", "languages": ["Russian", "English"], "displayLanguageSelector": true, "startMenuFolder": "Magic Conch" }
+    },
+    "macOS": { "minimumSystemVersion": "11.0", "signingIdentity": "-" }
+  }
+}

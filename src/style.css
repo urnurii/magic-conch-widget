@@ -1,10 +1,10 @@
-:root { color-scheme: dark; font-family: 'Segoe UI', sans-serif; color: #f6efff; }
+:root { color-scheme: dark; font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif; color: #f6efff; }
 * { box-sizing: border-box; }
 html, body { margin: 0; width: 390px; height: 490px; overflow: hidden; background: transparent; user-select: none; }
 button { font: inherit; color: inherit; cursor: pointer; -webkit-app-region: no-drag; }
 button:focus-visible { outline: 2px solid #e6e8a0; outline-offset: 4px; }
 .widget { position: relative; width: 390px; height: 490px; padding-top: 12px; }
-.nameplate { display: flex; justify-content: center; align-items: center; gap: 11px; font-size: 10px; font-weight: 650; letter-spacing: 2.1px; color: #f4edff; text-shadow: 0 1px 6px #1d1233, 0 0 3px #1d1233; -webkit-app-region: drag; }
+.nameplate { display: flex; justify-content: center; align-items: center; gap: 11px; font-size: 10px; font-weight: 650; letter-spacing: 2.1px; color: #f4edff; text-shadow: 0 1px 6px #1d1233, 0 0 3px #1d1233; cursor: move; }
 .star { color: #dfdb9a; font-size: 13px; }
 .bubble { position: absolute; z-index: 3; top: 43px; left: 34px; width: 322px; min-height: 90px; padding: 17px 18px 18px; border: 1px solid #d5c4f139; border-radius: 22px; background: #211b32f5; box-shadow: 0 8px 23px #100a242e, inset 0 1px #ffffff0d; text-align: center; display: flex; flex-direction: column; justify-content: center; gap: 6px; }
 .bubble::after { content: ''; position: absolute; width: 14px; height: 14px; bottom: -8px; left: 85px; background: #211b32; transform: rotate(45deg); border-right: 1px solid #d5c4f139; border-bottom: 1px solid #d5c4f139; }
@@ -39,7 +39,7 @@ button:focus-visible { outline: 2px solid #e6e8a0; outline-offset: 4px; }
 .toolbar button[aria-pressed=true] { color: #e7e8b3; }
 .toolbar #close:hover { color: #ffc4ce; background: #ac415d32; }
 .divider { height: 13px; width: 1px; margin: 0 4px; background: #ad9fb72f; }
-.grip { width: 34px; text-align: center; color: #a090ba; cursor: move; -webkit-app-region: drag; }
+.grip { width: 34px; text-align: center; color: #a090ba; cursor: move; }
 .grip span { font-size: 22px; }
 @keyframes thinking { from { transform: rotate(-2deg); } to { transform: rotate(2deg) translateY(-2px); } }
 @keyframes reveal { from { transform: translateY(5px) scale(.97); opacity: .6; } to { transform: none; opacity: 1; } }

@@ -8,6 +8,17 @@ let sound = true;
 let pulling = null;
 let pull = 0;
 let audio;
+const voice = $('voice');
+voice.preload = 'auto';
+
+function primeVoice() {
+  if (!sound) return;
+  voice.pause();
+  voice.src = 'assets/audio/silence.wav';
+  // Unlock this media element inside the click/pointerup gesture. Reusing it
+  // for the delayed answer also works with WKWebView's autoplay policy.
+  void voice.play().catch(() => {});
+}
 
 function tone() {
   if (!sound) return;
@@ -28,15 +39,14 @@ function tone() {
   } catch {}
 }
 function speak(text) {
-  if (!sound || !window.speechSynthesis) return;
-  const voice = speechSynthesis.getVoices().find(v => /^ru\b/i.test(v.lang) && v.localService);
-  if (!voice) { $('hint').textContent = 'Для озвучки нужен русский голос Windows'; return; }
-  const utterance = new SpeechSynthesisUtterance(text);
-  utterance.voice = voice; utterance.lang = 'ru-RU'; utterance.rate = .88; utterance.pitch = .9;
-  speechSynthesis.cancel(); speechSynthesis.speak(utterance);
+  if (!sound) return;
+  voice.pause();
+  voice.src = ConchAnswers.audioFor(text);
+  void voice.play().catch(() => { if (sound) $('hint').textContent = 'Не удалось воспроизвести запись ответа'; });
 }
 function ask() {
   if (busy || pulling) return;
+  primeVoice();
   busy = true;
   widget.classList.add('thinking');
   $('bubble').classList.remove('reveal');
@@ -94,21 +104,25 @@ $('sound').addEventListener('click', async () => {
   sound = !sound;
   $('sound').setAttribute('aria-pressed', String(sound));
   $('sound').textContent = sound ? '♫' : '♪';
-  $('sound').title = sound ? 'Звуки и голос Windows включены' : 'Звук выключен';
-  if (!sound) speechSynthesis?.cancel();
+  $('sound').title = sound ? 'Звуки и озвучка включены' : 'Звук выключен';
+  if (!sound) { voice.pause(); if (audio) void audio.suspend(); }
   await window.conch?.setPreference('sound', sound);
 });
 $('pin').addEventListener('click', async () => {
   const value = $('pin').getAttribute('aria-pressed') !== 'true';
   const actual = window.conch ? await window.conch.setPreference('alwaysOnTop', value) : value;
   $('pin').setAttribute('aria-pressed', String(actual));
-  if (value && !actual) $('hint').textContent = 'Windows не дала закрепить окно поверх других';
+  if (value && !actual) $('hint').textContent = 'Система не дала закрепить окно поверх других';
 });
 $('minimize').addEventListener('click', () => window.conch?.minimize());
 $('close').addEventListener('click', () => window.conch?.close());
-if (window.conch) window.conch.getPreferences().then(preferences => {
-  sound = preferences.sound;
-  $('sound').setAttribute('aria-pressed', String(sound));
-  $('sound').textContent = sound ? '♫' : '♪';
-  $('pin').setAttribute('aria-pressed', String(preferences.alwaysOnTop));
-});
+if (window.conch) {
+  window.conch.getPreferences().then(preferences => {
+    sound = preferences.sound;
+    $('sound').setAttribute('aria-pressed', String(sound));
+    $('sound').textContent = sound ? '♫' : '♪';
+    $('pin').setAttribute('aria-pressed', String(preferences.alwaysOnTop));
+  }).catch(console.error).finally(() => {
+    Promise.resolve(window.conch.ready?.()).catch(console.error);
+  });
+}

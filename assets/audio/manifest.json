@@ -1,0 +1,68 @@
+{
+  "voice": "ru-RU-SvetlanaNeural",
+  "rate": "-8%",
+  "generator": "edge-tts 7.3.1",
+  "note": "Pre-generated speech; no network synthesis at runtime",
+  "clips": [
+    {
+      "text": "Да.",
+      "file": "answer-01.mp3",
+      "sha256": "230ebe4a32a4fbf2d6572a31d207add738acd03ac47ff14895a925737854d8ca"
+    },
+    {
+      "text": "Нет.",
+      "file": "answer-02.mp3",
+      "sha256": "a072700931b9330acc9050a9da2c0ace567ed090c7029d702b3b7a841970ff3d"
+    },
+    {
+      "text": "Не знаю.",
+      "file": "answer-03.mp3",
+      "sha256": "61957bce5a11c6cd3325859d19cd31ab4b9e6173a7313031c0fdc9d46e0b1a62"
+    },
+    {
+      "text": "Подумай сам.",
+      "file": "answer-04.mp3",
+      "sha256": "c2a11ee870f90a15fa878191ded2e29839a4499365af42bc527e0459a7aa541d"
+    },
+    {
+      "text": "Ничего.",
+      "file": "answer-05.mp3",
+      "sha256": "00adb5799c6425e646cb8f3eb50bb27cf30339d282f424ed87aaf262c66a793a"
+    },
+    {
+      "text": "Возможно, когда-нибудь.",
+      "file": "answer-06.mp3",
+      "sha256": "d6ea5257207b62d9184796b7de96f7c9fd216bcb872d5918318ae794fd78b72a"
+    },
+    {
+      "text": "Спроси ещё раз.",
+      "file": "answer-07.mp3",
+      "sha256": "56d63b2daa954518ea21c39bcd11f9451fda03341108c6fb6501f459c815c516"
+    },
+    {
+      "text": "Не думаю.",
+      "file": "answer-08.mp3",
+      "sha256": "2a22695284d0d3ac2c04f9891fee9dcebbf7eec8440e780cc3690553d624868a"
+    },
+    {
+      "text": "Ни то ни другое.",
+      "file": "answer-09.mp3",
+      "sha256": "71c2bdea412613d1b0f710180337290d5a8f5dbb4ff39c46e26a817785d13c05"
+    },
+    {
+      "text": "Определённо да.",
+      "file": "answer-10.mp3",
+      "sha256": "0fd1f089a282b9d4586c88923ac28aa22958660470fb77e598f5319646ef5846"
+    },
+    {
+      "text": "Лучше подожди.",
+      "file": "answer-11.mp3",
+      "sha256": "79a9886819c0a7be8d553fd66a16dd4b9b41cf5400ca07030614aa12a0c362f8"
+    },
+    {
+      "text": "Следуй за морским коньком.",
+      "file": "answer-12.mp3",
+      "sha256": "e1579f9c8563fb391e985b9b16f5735d761465c96490eb48576ee1f1316896b1"
+    }
+  ]
+}

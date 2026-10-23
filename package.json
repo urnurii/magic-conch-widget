@@ -1,59 +1,21 @@
 {
   "name": "magic-conch-widget",
-  "version": "0.1.1",
-  "description": "Волшебная ракушка — прозрачный виджет для Windows",
-  "main": "src/main.cjs",
+  "version": "0.2.0",
+  "description": "Волшебная ракушка для Windows и macOS с озвучкой",
   "author": "Magic Conch Widget contributors",
   "private": true,
   "scripts": {
-    "start": "electron .",
-    "test": "node --test test/answers.test.cjs && node test/widget.smoke.cjs",
-    "build": "electron-builder --win portable nsis --x64",
-    "build:installer": "electron-builder --win nsis --x64"
+    "start": "tauri dev",
+    "dev": "node scripts/dev.cjs",
+    "build:frontend": "node scripts/build-frontend.cjs",
+    "build": "tauri build",
+    "build:installer": "tauri build --bundles nsis",
+    "test": "node --test test/answers.test.cjs test/audio.test.cjs && node test/widget.browser.cjs",
+    "test:native": "node test/widget.native.cjs",
+    "tauri": "tauri"
   },
   "devDependencies": {
-    "electron": "45.0.0",
-    "electron-builder": "26.15.3",
+    "@tauri-apps/cli": "2.12.4",
     "playwright": "1.64.1"
-  },
-  "build": {
-    "appId": "local.magicconch.widget",
-    "productName": "Magic Conch",
-    "artifactName": "Magic-Conch-${version}-portable.${ext}",
-    "directories": {
-      "output": "dist"
-    },
-    "files": [
-      "src/**/*",
-      "assets/**/*",
-      "package.json",
-      "README.md",
-      "SOURCES.md"
-    ],
-    "win": {
-      "target": "portable",
-      "signAndEditExecutable": false
-    },
-    "portable": {
-      "requestExecutionLevel": "user"
-    },
-    "nsis": {
-      "artifactName": "Magic-Conch-${version}-Setup.${ext}",
-      "oneClick": false,
-      "perMachine": false,
-      "allowElevation": false,
-      "allowToChangeInstallationDirectory": true,
-      "createDesktopShortcut": "always",
-      "createStartMenuShortcut": true,
-      "shortcutName": "Волшебная ракушка",
-      "uninstallDisplayName": "Magic Conch — Волшебная ракушка",
-      "installerLanguages": [
-        "ru_RU",
-        "en_US"
-      ],
-      "language": "1049",
-      "runAfterFinish": true,
-      "deleteAppDataOnUninstall": false
-    }
   }
 }
