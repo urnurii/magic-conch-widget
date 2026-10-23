@@ -8,7 +8,8 @@
   "scripts": {
     "start": "electron .",
     "test": "node --test test/answers.test.cjs && node test/widget.smoke.cjs",
-    "build": "electron-builder --win portable --x64"
+    "build": "electron-builder --win portable nsis --x64",
+    "build:installer": "electron-builder --win nsis --x64"
   },
   "devDependencies": {
     "electron": "45.0.0",
@@ -20,8 +21,23 @@
     "productName": "Magic Conch",
     "artifactName": "Magic-Conch-${version}-portable.${ext}",
     "directories": { "output": "dist" },
-    "files": ["src/**/*", "assets/**/*", "package.json"],
+    "files": ["src/**/*", "assets/**/*", "package.json", "README.md", "SOURCES.md"],
     "win": { "target": "portable", "signAndEditExecutable": false },
-    "portable": { "requestExecutionLevel": "user" }
+    "portable": { "requestExecutionLevel": "user" },
+    "nsis": {
+      "artifactName": "Magic-Conch-${version}-Setup.${ext}",
+      "oneClick": false,
+      "perMachine": false,
+      "allowElevation": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": "always",
+      "createStartMenuShortcut": true,
+      "shortcutName": "Волшебная ракушка",
+      "uninstallDisplayName": "Magic Conch — Волшебная ракушка",
+      "installerLanguages": ["ru_RU", "en_US"],
+      "language": "1049",
+      "runAfterFinish": true,
+      "deleteAppDataOnUninstall": false
+    }
   }
 }
