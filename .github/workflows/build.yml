@@ -82,9 +82,9 @@ jobs:
             if ($process.ExitCode -ne 0) { throw "WebView2 install failed: $($process.ExitCode)" }
           }
           npm run tauri -- info
-      - name: Check Windows app
+      - name: Check Windows startup
         if: runner.os == 'Windows'
-        run: npm run test:native
+        run: node test/widget.startup.cjs
         env:
           CONCH_EXECUTABLE: dist/release/Magic-Conch-0.2.0-Windows.exe
       - name: Check macOS app
@@ -92,7 +92,7 @@ jobs:
         run: |
           codesign --verify --deep --strict 'src-tauri/target/universal-apple-darwin/release/bundle/macos/Magic Conch.app'
           lipo -archs 'src-tauri/target/universal-apple-darwin/release/bundle/macos/Magic Conch.app/Contents/MacOS/magic-conch-widget'
-          node test/widget.macos.cjs
+          node test/widget.startup.cjs
       - uses: actions/upload-artifact@v4
         if: always()
         with:
